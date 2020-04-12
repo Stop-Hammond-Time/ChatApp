@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryBackground"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/profilePicture_registration"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_myplaces" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profilePicture_registration">
+
+        <EditText
+            android:id="@+id/username_edittext_registration"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textboxHeight"
+            android:layout_marginBottom="12dp"
+            android:background="@color/textbackground"
+            android:ems="10"
+            android:hint="@string/user_name"
+            android:inputType="textPersonName"
+            android:paddingStart="12dp"
+            android:paddingLeft="12dp"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/email_edittext_registration"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textboxHeight"
+            android:layout_marginBottom="12dp"
+            android:background="@color/textbackground"
+            android:ems="10"
+            android:hint="@string/email_address"
+            android:inputType="textPersonName"
+            android:paddingStart="12dp"
+            android:paddingLeft="12dp"
+            tools:ignore="RtlSymmetry,TextFields" />
+
+        <EditText
+            android:id="@+id/password_edittext_registration"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textboxHeight"
+            android:layout_marginBottom="12dp"
+            android:background="@color/textbackground"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPersonName"
+            android:paddingStart="12dp"
+            android:paddingLeft="12dp"
+            tools:ignore="RtlSymmetry,TextFields" />
+
+        <Button
+            android:id="@+id/register_button_registration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/loginlink_registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Alreadyhave_account_message"
+        android:textColor="@color/textbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.75" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
