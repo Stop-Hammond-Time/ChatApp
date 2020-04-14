@@ -6,4 +6,7 @@
     <string name="register">Register</string>
     <string name="Alreadyhave_account_message">Already have an account? Login here...</string>
     <string name="signup">Need to signup?</string>
+    <string name="log_in">Log in</string>
+    <string name="username">UserName</string>
+    <string name="description">Description</string>
 </resources>

@@ -43,6 +43,8 @@ class RegisterActivity : AppCompatActivity() {
 
     var selectedPhotoURI: Uri? = null
 
+
+    //Set Image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -53,9 +55,11 @@ class RegisterActivity : AppCompatActivity() {
 
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoURI)
 
-            val bitmapDrawable = BitmapDrawable(bitmap)
+            selectphoto_imageview_register.setImageBitmap(bitmap)
+            profilePicture_registration.alpha = 0f
 
-            profilePicture_registration.setBackgroundDrawable(bitmapDrawable)
+//            val bitmapDrawable = BitmapDrawable(bitmap)
+//            profilePicture_registration.setBackgroundDrawable(bitmapDrawable)
         }
     }
 
@@ -74,8 +78,11 @@ class RegisterActivity : AppCompatActivity() {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
                 Log.d("RegisterActivity","successfully created user with uid: ${it.result?.user?.uid}")
-
                 uploadImageToFirebaseStorage()
+
+                val intent = Intent(this,LatestMessages::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             .addOnFailureListener {
                 Log.d("RegisterActivity", "Failed to create user for reason: ${it.message}")
@@ -89,14 +96,14 @@ class RegisterActivity : AppCompatActivity() {
         val fileName = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$fileName")
         ref.putFile(selectedPhotoURI!!)
-            .addOnSuccessListener {
-                Log.d("RegisterActivity","Upload successful: ${it.metadata?.path}")
+            .addOnSuccessListener { uri ->
+                Log.d("RegisterActivity","Upload successful: ${uri.metadata?.path}")
 
-                ref.downloadUrl.addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { 
                     Log.d("RegisterActivity","File location $it")
+                    saveUserToDatabase(it.toString())
                 }
 
-                saveUserToDatabase(it.toString())
             }
             .addOnFailureListener{
                 Log.d("RegisterActivity","Upload failed")
@@ -113,4 +120,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 }
 
-class User(val uid:String, val username: String, val profileImageUrl: String)
+class User(val uid:String, val username: String, val profileImageUrl: String){
+    constructor() : this("","","")
+}

@@ -55,10 +55,10 @@
             tools:ignore="RtlSymmetry,TextFields" />
 
         <Button
-            android:id="@+id/register_button_login"
+            android:id="@+id/login_button_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register" />
+            android:text="@string/log_in" />
 
     </LinearLayout>
 
@@ -73,5 +73,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.75" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/selectphoto_imageview_login"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/profilePicture_login"
+        app:layout_constraintEnd_toEndOf="@+id/profilePicture_login"
+        app:layout_constraintStart_toStartOf="@+id/profilePicture_login"
+        app:layout_constraintTop_toTopOf="@+id/profilePicture_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
