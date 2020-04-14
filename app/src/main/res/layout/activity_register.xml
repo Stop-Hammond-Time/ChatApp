@@ -5,24 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBackground"
-    tools:context=".MainActivity">
+    tools:context=".RegisterActivity">
 
     <ImageView
         android:id="@+id/profilePicture_registration"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/profile_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
+        app:srcCompat="@android:drawable/ic_menu_myplaces"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_margin="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/textboxHeight"
             android:layout_marginBottom="12dp"
-            android:background="@color/textbackground"
+            android:background="@drawable/rounded_edittext_login"
             android:ems="10"
             android:hint="@string/user_name"
             android:inputType="textPersonName"
@@ -46,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/textboxHeight"
             android:layout_marginBottom="12dp"
-            android:background="@color/textbackground"
+            android:background="@drawable/rounded_edittext_login"
             android:ems="10"
             android:hint="@string/email_address"
             android:inputType="textPersonName"
@@ -59,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/textboxHeight"
             android:layout_marginBottom="12dp"
-            android:background="@color/textbackground"
+            android:background="@drawable/rounded_edittext_login"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPersonName"
@@ -80,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Alreadyhave_account_message"
-        android:textColor="@color/textbackground"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
