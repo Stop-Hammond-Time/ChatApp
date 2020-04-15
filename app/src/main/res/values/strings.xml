@@ -9,4 +9,6 @@
     <string name="log_in">Log in</string>
     <string name="username">UserName</string>
     <string name="description">Description</string>
+    <string name="elipses">...</string>
+    <string name="send">Send</string>
 </resources>
