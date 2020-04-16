@@ -1,9 +1,11 @@
-package com.example.chatapp
+package com.example.chatapp.login_register
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chatapp.messages.LatestMessages
+import com.example.chatapp.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -42,7 +44,7 @@ class LoginActivity: AppCompatActivity(){
             if (!it.isSuccessful) return@addOnCompleteListener
 
             Log.d("Main","successful login: ${it.result?.user?.uid}")
-            val intent = Intent(this,LatestMessages::class.java)
+            val intent = Intent(this, LatestMessages::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }

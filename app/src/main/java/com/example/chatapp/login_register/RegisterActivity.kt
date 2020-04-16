@@ -1,8 +1,7 @@
-package com.example.chatapp
+package com.example.chatapp.login_register
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +10,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 import android.provider.MediaStore
+import com.example.chatapp.messages.LatestMessages
+import com.example.chatapp.R
+import com.example.chatapp.models.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
@@ -28,7 +30,8 @@ class RegisterActivity : AppCompatActivity() {
         loginlink_registration.setOnClickListener {
             Log.d("RegisterActivity","login link clicked")
             //start new activity
-            val intent = Intent(this,LoginActivity::class.java)
+            val intent = Intent(this,
+                LoginActivity::class.java)
             startActivity(intent)
         }
 
@@ -80,7 +83,7 @@ class RegisterActivity : AppCompatActivity() {
                 Log.d("RegisterActivity","successfully created user with uid: ${it.result?.user?.uid}")
                 uploadImageToFirebaseStorage()
 
-                val intent = Intent(this,LatestMessages::class.java)
+                val intent = Intent(this, LatestMessages::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
@@ -113,7 +116,11 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserToDatabase(imageUrl: String){
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid,username_edittext_registration.text.toString(),imageUrl)
+        val user = User(
+            uid,
+            username_edittext_registration.text.toString(),
+            imageUrl
+        )
         ref.setValue(user)
             .addOnSuccessListener { Log.d("RegisterActivity","Successfully created user in database") }
             .addOnFailureListener { Log.d("RegisterActivity","Failed to create user reason: ${it.message}")}

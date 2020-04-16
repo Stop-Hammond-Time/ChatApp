@@ -49,7 +49,7 @@
             android:background="@drawable/rounded_edittext_login"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:paddingStart="12dp"
             android:paddingLeft="12dp"
             tools:ignore="RtlSymmetry,TextFields" />

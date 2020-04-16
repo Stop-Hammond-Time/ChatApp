@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatLogActivity">
+    tools:context=".chatlog.ChatLogActivity">
 
     <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerview_chatLog"
@@ -17,7 +17,7 @@
     app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/textInput_chatLog"
+        android:id="@+id/textInput_edittext_chatLog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/elipses"

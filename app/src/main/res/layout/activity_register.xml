@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBackground"
-    tools:context=".RegisterActivity">
+    tools:context=".login_register.RegisterActivity">
 
     <ImageView
         android:id="@+id/profilePicture_registration"
@@ -63,7 +63,7 @@
             android:background="@drawable/rounded_edittext_login"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:paddingStart="12dp"
             android:paddingLeft="12dp"
             tools:ignore="RtlSymmetry,TextFields" />

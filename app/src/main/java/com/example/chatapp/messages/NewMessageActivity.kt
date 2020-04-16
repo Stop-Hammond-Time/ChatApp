@@ -1,10 +1,12 @@
-package com.example.chatapp
+package com.example.chatapp.messages
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.chatlog.ChatLogActivity
+import com.example.chatapp.R
+import com.example.chatapp.models.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -14,7 +16,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_new_message.*
-import kotlinx.android.synthetic.main.chat_from_row.view.*
 import kotlinx.android.synthetic.main.user_row_newmessage.view.*
 
 class NewMessageActivity : AppCompatActivity() {

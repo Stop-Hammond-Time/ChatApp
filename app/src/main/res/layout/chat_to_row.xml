@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_pic_chat_from_row"
+        android:id="@+id/profilepicture_chat_to_row"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:civ_border_color="@color/colorPrimary"
@@ -15,13 +15,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_chat_to_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_send_btn"
         android:maxWidth="240dp"
         android:padding="8dp"
-        android:text="TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView"
-        app:layout_constraintEnd_toStartOf="@+id/profile_pic_chat_from_row"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/profilepicture_chat_to_row"
+        app:layout_constraintTop_toTopOf="@id/profilepicture_chat_to_row" />
 </androidx.constraintlayout.widget.ConstraintLayout>
