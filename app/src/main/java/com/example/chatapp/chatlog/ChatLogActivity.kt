@@ -37,7 +37,7 @@ class ChatLogActivity : AppCompatActivity() {
 
         adapter.clear()
         recyclerview_chatLog.adapter = adapter
-        fromUser = LatestMessages.currentUser
+        fromUser = LatestMessages.thisUser
         toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)!!
         supportActionBar?.title = toUser.username
 
@@ -83,7 +83,8 @@ class ChatLogActivity : AppCompatActivity() {
         val text = textInput_edittext_chatLog.text.toString()
         val ref = FirebaseDatabase.getInstance().getReference("/user_messages/${fromUser.uid}/${toUser.uid}").push()
         val refReceiving = FirebaseDatabase.getInstance().getReference("/user_messages/${toUser.uid}/${fromUser.uid}").push()
-
+        val latestMessagesRef = FirebaseDatabase.getInstance().getReference("/latest_messages/${fromUser.uid}/${toUser.uid}")
+        val latestMessagesReceivingRef = FirebaseDatabase.getInstance().getReference("/latest_messages/${toUser.uid}/${fromUser.uid}")
         val message = ChatMessage(
             ref.key ?: "", text, toUser.uid, fromUser.uid, System.currentTimeMillis() /1000
         )
@@ -96,6 +97,9 @@ class ChatLogActivity : AppCompatActivity() {
         if (toUser != fromUser) {
             refReceiving.setValue(message)
         }
+
+        latestMessagesRef.setValue(message)
+        latestMessagesReceivingRef.setValue(message)
     }
 }
 
