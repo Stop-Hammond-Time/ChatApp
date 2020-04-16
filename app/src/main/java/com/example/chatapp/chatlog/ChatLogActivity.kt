@@ -65,7 +65,9 @@ class ChatLogActivity : AppCompatActivity() {
                 else {
                     adapter.add(ChatFromItem(chatMessage.text))
                 }
+                recyclerview_chatLog.scrollToPosition(adapter.itemCount - 1)
             }
+
             //unused
             override fun onCancelled(p0: DatabaseError) {
             }

@@ -52,8 +52,13 @@ class LatestMessages : AppCompatActivity() {
 
     private fun refreshMessages(){
         adapter.clear()
+        val sortedMap = HashMap<Long, ChatMessage>()
         latestMessagesMap.values.forEach{Log.d("LatestMessages",it.text)}
-        latestMessagesMap.values.forEach {
+
+        latestMessagesMap.forEach {
+            sortedMap[0 - it.value.timestamp] = it.value
+        }
+        sortedMap.toSortedMap().values.forEach{
             adapter.add(LatestMessage(it))
         }
     }
