@@ -61,16 +61,14 @@ class RegisterActivity : AppCompatActivity() {
             selectphoto_imageview_register.setImageBitmap(bitmap)
             profilePicture_registration.alpha = 0f
 
-//            val bitmapDrawable = BitmapDrawable(bitmap)
-//            profilePicture_registration.setBackgroundDrawable(bitmapDrawable)
         }
     }
 
     private fun register(){
         val email = email_edittext_registration.text.toString()
         val password = password_edittext_registration.text.toString()
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this,"Enter email and password, dipshit...", Toast.LENGTH_LONG).show()
+        if (email.isEmpty() || password.isEmpty() || selectedPhotoURI==null) {
+            Toast.makeText(this,"Enter email, password and select a profile image", Toast.LENGTH_LONG).show()
             return
         }
         Log.d("RegisterActivity", "\nEmail is $email \n password is $password")
@@ -83,9 +81,8 @@ class RegisterActivity : AppCompatActivity() {
                 Log.d("RegisterActivity","successfully created user with uid: ${it.result?.user?.uid}")
                 uploadImageToFirebaseStorage()
 
-                val intent = Intent(this, LatestMessages::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+
+
             }
             .addOnFailureListener {
                 Log.d("RegisterActivity", "Failed to create user for reason: ${it.message}")
@@ -94,7 +91,6 @@ class RegisterActivity : AppCompatActivity() {
 
     }
     fun uploadImageToFirebaseStorage(){
-        if (selectedPhotoURI==null) return
 
         val fileName = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$fileName")
@@ -122,7 +118,12 @@ class RegisterActivity : AppCompatActivity() {
             imageUrl
         )
         ref.setValue(user)
-            .addOnSuccessListener { Log.d("RegisterActivity","Successfully created user in database") }
+            .addOnSuccessListener {
+                Log.d("RegisterActivity", "Successfully created user in database")
+                val intent = Intent(this, LatestMessages::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
             .addOnFailureListener { Log.d("RegisterActivity","Failed to create user reason: ${it.message}")}
     }
 }

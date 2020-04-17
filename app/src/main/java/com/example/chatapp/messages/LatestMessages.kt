@@ -88,10 +88,12 @@ class LatestMessages : AppCompatActivity() {
 
     private fun verifyUserIsLoggedIn(){
         val uid = FirebaseAuth.getInstance().uid
+        Log.d("RegisterActivity", "UserID = $uid")
         if (uid == null){
             signOut()
             return
         }
+
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
             ref.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {}
