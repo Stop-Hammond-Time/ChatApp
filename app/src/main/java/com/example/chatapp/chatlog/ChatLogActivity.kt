@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.chat_from_row.view.*
 import kotlinx.android.synthetic.main.chat_from_row.view.profilepicture_chat_to_row
 import kotlinx.android.synthetic.main.chat_to_row.view.*
 
-var toUser = User()
-var fromUser = User()
+var partnerUser = User()
+var thisUser = User()
 val adapter = GroupAdapter<GroupieViewHolder>()
 
 class ChatLogActivity : AppCompatActivity() {
@@ -35,11 +35,13 @@ class ChatLogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
+        FirebaseDatabase.getInstance().getReference("/user_messages/${thisUser.uid}/${partnerUser.uid}").removeEventListener(childEventListener)
+
         adapter.clear()
         recyclerview_chatLog.adapter = adapter
-        fromUser = LatestMessages.thisUser
-        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)!!
-        supportActionBar?.title = toUser.username
+        thisUser = LatestMessages.thisUser
+        partnerUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)!!
+        supportActionBar?.title = partnerUser.username
 
         sendBtn_chatLog.setOnClickListener {
             Log.d(TAG,"Send message clicked")
@@ -51,44 +53,57 @@ class ChatLogActivity : AppCompatActivity() {
          listenForMessages()
     }
 
+    private val messages = ArrayList<ChatMessage>()
+
+    private val childEventListener = object: ChildEventListener{
+        override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+            val chatMessage = p0.getValue(ChatMessage::class.java)
+            Log.d(TAG, "found message: " + chatMessage!!.text)
+
+            messages.add(chatMessage)
+
+            refreshMessages()
+        }
+
+        //unused
+        override fun onCancelled(p0: DatabaseError) {
+        }
+        override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+        }
+        override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+        }
+        override fun onChildRemoved(p0: DataSnapshot) {
+        }
+    }
+
     private fun listenForMessages(){
-        val ref = FirebaseDatabase.getInstance().getReference("/user_messages/${fromUser.uid}/${toUser.uid}")
+        val ref = FirebaseDatabase.getInstance().getReference("/user_messages/${thisUser.uid}/${partnerUser.uid}")
 
-        ref.addChildEventListener(object: ChildEventListener{
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val chatMessage = p0.getValue(ChatMessage::class.java)
-                Log.d(TAG, "found message: " + chatMessage!!.text)
+        ref.addChildEventListener(childEventListener)
+    }
 
-                if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                    adapter.add(ChatToItem(chatMessage.text))
-                }
-                else {
-                    adapter.add(ChatFromItem(chatMessage.text))
-                }
-                recyclerview_chatLog.scrollToPosition(adapter.itemCount - 1)
+    private fun refreshMessages(){
+        adapter.clear()
+        messages.forEach {
+            if (it.fromId == FirebaseAuth.getInstance().uid) {
+                adapter.add(ChatToItem(it.text))
             }
-
-            //unused
-            override fun onCancelled(p0: DatabaseError) {
+            else {
+                adapter.add(ChatFromItem(it.text))
             }
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-            }
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-            }
-            override fun onChildRemoved(p0: DataSnapshot) {
-            }
-        })
+            recyclerview_chatLog.scrollToPosition(adapter.itemCount - 1)
+        }
     }
 
 
     private fun SendMessage(){
         val text = textInput_edittext_chatLog.text.toString()
-        val ref = FirebaseDatabase.getInstance().getReference("/user_messages/${fromUser.uid}/${toUser.uid}").push()
-        val refReceiving = FirebaseDatabase.getInstance().getReference("/user_messages/${toUser.uid}/${fromUser.uid}").push()
-        val latestMessagesRef = FirebaseDatabase.getInstance().getReference("/latest_messages/${fromUser.uid}/${toUser.uid}")
-        val latestMessagesReceivingRef = FirebaseDatabase.getInstance().getReference("/latest_messages/${toUser.uid}/${fromUser.uid}")
+        val ref = FirebaseDatabase.getInstance().getReference("/user_messages/${thisUser.uid}/${partnerUser.uid}").push()
+        val refReceiving = FirebaseDatabase.getInstance().getReference("/user_messages/${partnerUser.uid}/${thisUser.uid}").push()
+        val latestMessagesRef = FirebaseDatabase.getInstance().getReference("/latest_messages/${thisUser.uid}/${partnerUser.uid}")
+        val latestMessagesReceivingRef = FirebaseDatabase.getInstance().getReference("/latest_messages/${partnerUser.uid}/${thisUser.uid}")
         val message = ChatMessage(
-            ref.key ?: "", text, toUser.uid, fromUser.uid, System.currentTimeMillis() /1000
+            ref.key ?: "", text, partnerUser.uid, thisUser.uid, System.currentTimeMillis() /1000
         )
 
         ref.setValue(message)
@@ -96,7 +111,7 @@ class ChatLogActivity : AppCompatActivity() {
                 Log.d(TAG,"Message sent successfully ${ref.key}")
             }
 
-        if (toUser != fromUser) {
+        if (partnerUser != thisUser) {
             refReceiving.setValue(message)
         }
 
@@ -108,7 +123,7 @@ class ChatLogActivity : AppCompatActivity() {
 class ChatFromItem(val text:String):Item<GroupieViewHolder>()    {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textView_chat_from_row.text = text
-        Picasso.get().load(toUser.profileImageUrl).into(viewHolder.itemView.profilepicture_chat_to_row)
+        Picasso.get().load(partnerUser.profileImageUrl).into(viewHolder.itemView.profilepicture_chat_to_row)
     }
     override fun getLayout(): Int {
     return R.layout.chat_from_row
@@ -117,7 +132,7 @@ class ChatFromItem(val text:String):Item<GroupieViewHolder>()    {
 
 class ChatToItem(val text: String):Item<GroupieViewHolder>()    {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        Picasso.get().load(fromUser.profileImageUrl).into(viewHolder.itemView.profilepicture_chat_to_row)
+        Picasso.get().load(thisUser.profileImageUrl).into(viewHolder.itemView.profilepicture_chat_to_row)
         viewHolder.itemView.textView_chat_to_row.text = text
     }
     override fun getLayout(): Int {
